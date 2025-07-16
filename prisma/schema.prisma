@@ -8,49 +8,42 @@ datasource db {
 }
 
 model Student {
-  id             String         @id @default(cuid())
-  userId         String         @unique                 // Clerk user ID
+  id             String        @id @default(cuid())
+  userId         String        @unique
   name           String
   email          String?
   phone          String?
-  
+  branchChoice1  String
+  branchChoice2  String
+  seatAllotted   String?
+  seatAccepted   Boolean       @default(false)
+  receiptUrl     String?
+  receiptStatus  ReceiptStatus @default(PENDING)
+  offerLetterUrl String?
+  createdAt      DateTime      @default(now())
   class10        Class10Marks?
   class12        Class12Marks?
-
-  branchChoice1  String                              // First preference (e.g., CSE)
-  branchChoice2  String                              // Second preference (e.g., ECE)
-
-  seatAllotted   String?                             // Final stream allotted by admin
-  seatAccepted   Boolean        @default(false)      // Did student accept it?
-  
-  receiptUrl     String?                             // Link to uploaded receipt
-  receiptStatus  ReceiptStatus  @default(PENDING)    // PENDING, VERIFIED, REJECTED
-
-  offerLetterUrl String?                             // Link to generated offer letter
-
-  createdAt      DateTime       @default(now())
+   notification    String? 
 }
 
 model Class10Marks {
-  id        String   @id @default(cuid())
-  student   Student  @relation(fields: [studentId], references: [id])
-  studentId String   @unique
-
+  id        String  @id @default(cuid())
+  studentId String  @unique
   math      Int
   science   Int
   english   Int
   hindi     Int
   social    Int
+  student   Student @relation(fields: [studentId], references: [id])
 }
 
 model Class12Marks {
-  id        String   @id @default(cuid())
-  student   Student  @relation(fields: [studentId], references: [id])
-  studentId String   @unique
-
+  id        String  @id @default(cuid())
+  studentId String  @unique
   physics   Int
   chemistry Int
   math      Int
+  student   Student @relation(fields: [studentId], references: [id])
 }
 
 enum ReceiptStatus {

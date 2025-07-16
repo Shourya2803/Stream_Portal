@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import {Toaster} from 'react-hot-toast'
 
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           
           {children}
+
        
           <Toaster position="top-right" reverseOrder={false} />
         </ThemeProvider>

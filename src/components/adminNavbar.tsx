@@ -1,6 +1,6 @@
 "use client";
 import { UserButton } from "@clerk/nextjs";
-import { Bell, Menu, X, Search, Settings, Zap } from "lucide-react";
+import {  Menu, X, Search, Settings, Zap } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useState } from "react";
 
@@ -54,19 +54,7 @@ export default function Navbar( ) {{
         
 
           {/* Notifications */}
-          <div className="relative">
-            <button 
-              className="p-2 hover:bg-muted rounded-full transition-all duration-200 hover:scale-105"
-              onClick={() => setHasNotifications(false)}
-            >
-              <Bell className="w-5 h-5 text-muted-foreground" />
-              {hasNotifications && (
-                <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full animate-pulse">
-                  <span className="absolute inset-0 w-3 h-3 bg-red-500 rounded-full animate-ping"></span>
-                </span>
-              )}
-            </button>
-          </div>
+        
 
          
           {/* Theme Toggle */}

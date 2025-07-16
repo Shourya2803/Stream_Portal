@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -53,14 +54,12 @@ export default function StudentList() {
     fetchStudents();
   }, []);
 
-  // Sort students
   const sortedStudents = [...students].sort((a, b) => {
     if (sortBy === "class10") return b.total10 - a.total10;
     if (sortBy === "class12") return b.total12 - a.total12;
     return 0;
   });
 
-  // Filter students based on search input
   const filteredStudents = sortedStudents.filter((student) =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -75,7 +74,6 @@ export default function StudentList() {
               Registered Students
             </CardTitle>
 
-            {/* 🔍 Search and Sort Controls */}
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <div className="relative w-full sm:w-64">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -118,55 +116,52 @@ export default function StudentList() {
                 </div>
               ) : (
                 filteredStudents.map((student) => (
-                  <Card
+                  <Link
                     key={student.id}
-                    className="bg-muted/40 border border-border shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.01]"
+                    href={`/admin/students/${student.id}`}
+                    className="block transition-all duration-300 hover:scale-[1.01]"
                   >
-                    <CardContent className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="flex items-start gap-3">
-                        <UserIcon className="text-purple-500 w-5 h-5 mt-1" />
-                        <div>
-                          <p className="text-sm text-muted-foreground">Name</p>
-                          <p className="font-semibold">{student.name}</p>
+                    <Card className="cursor-pointer bg-muted/40 border border-border shadow-md hover:shadow-lg transition-all duration-300">
+                      <CardContent className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="flex items-start gap-3">
+                          <UserIcon className="text-purple-500 w-5 h-5 mt-1" />
+                          <div>
+                            <p className="text-sm text-muted-foreground">Name</p>
+                            <p className="font-semibold">{student.name}</p>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="flex items-start gap-3">
-                        <BookOpenIcon className="text-indigo-500 w-5 h-5 mt-1" />
-                        <div>
-                          <p className="text-sm text-muted-foreground">
-                            Class 10 Marks
-                          </p>
-                          <p className="font-semibold">{student.total10}/500</p>
+                        <div className="flex items-start gap-3">
+                          <BookOpenIcon className="text-indigo-500 w-5 h-5 mt-1" />
+                          <div>
+                            <p className="text-sm text-muted-foreground">Class 10 Marks</p>
+                            <p className="font-semibold">{student.total10}/500</p>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="flex items-start gap-3">
-                        <BookOpenIcon className="text-green-500 w-5 h-5 mt-1" />
-                        <div>
-                          <p className="text-sm text-muted-foreground">
-                            Class 12 Marks
-                          </p>
-                          <p className="font-semibold">{student.total12}/300</p>
+                        <div className="flex items-start gap-3">
+                          <BookOpenIcon className="text-green-500 w-5 h-5 mt-1" />
+                          <div>
+                            <p className="text-sm text-muted-foreground">Class 12 Marks</p>
+                            <p className="font-semibold">{student.total12}/300</p>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="flex items-start gap-3">
-                        <GraduationCapIcon className="text-yellow-500 w-5 h-5 mt-1" />
-                        <div>
-                          <p className="text-sm text-muted-foreground">
-                            1st Preference
-                          </p>
-                          <Badge
-                            variant="secondary"
-                            className="text-sm px-2 py-1 mt-1 bg-primary/10 border border-primary/30 text-primary"
-                          >
-                            {student.branchChoice1}
-                          </Badge>
+                        <div className="flex items-start gap-3">
+                          <GraduationCapIcon className="text-yellow-500 w-5 h-5 mt-1" />
+                          <div>
+                            <p className="text-sm text-muted-foreground">1st Preference</p>
+                            <Badge
+                              variant="secondary"
+                              className="text-sm px-2 py-1 mt-1 bg-primary/10 border border-primary/30 text-primary"
+                            >
+                              {student.branchChoice1}
+                            </Badge>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))
               )}
             </div>
