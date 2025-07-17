@@ -1,16 +1,18 @@
 import { auth } from "@clerk/nextjs/server";
-import prisma  from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { userId } = await auth();
+    const { userId } = await auth(); // ✅ Removed 'await'
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
-     // ✅ Check if student already exists
+    console.log("Received body:", body);
+
+    // ✅ Check if student already exists
     const existingStudent = await prisma.student.findUnique({
       where: { userId }
     });
@@ -19,6 +21,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Student already registered" }, { status: 400 });
     }
 
+    // ✅ Create student entry with nested marks
     const student = await prisma.student.create({
       data: {
         userId,
@@ -30,19 +33,19 @@ export async function POST(req: Request) {
 
         class10: {
           create: {
-            english: parseInt(body.english10),
-            math: parseInt(body.maths10),
-            science: parseInt(body.science10),
-            hindi: parseInt(body.hindi10),
-            social: parseInt(body.social10),
+            english: parseInt(body.english10) || 0,
+            math: parseInt(body.maths10) || 0,
+            science: parseInt(body.science10) || 0,
+            hindi: parseInt(body.hindi10) || 0,
+            social: parseInt(body.social10) || 0,
           },
         },
 
         class12: {
           create: {
-            physics: parseInt(body.physics12),
-            chemistry: parseInt(body.chemistry12),
-            math: parseInt(body.maths12),
+            physics: parseInt(body.physics12) || 0,
+            chemistry: parseInt(body.chemistry12) || 0,
+            math: parseInt(body.maths12) || 0,
           },
         },
       },

@@ -31,6 +31,7 @@ export async function GET() {
         total10,
         total12,
         branchChoice1: student.branchChoice1,
+        seatAccepted: student.seatAccepted,
       };
     });
 
