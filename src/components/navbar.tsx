@@ -5,6 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { Bell, Menu, X, BookOpen } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -63,116 +64,326 @@ export default function Navbar() {
       setAccepting(false);
     }
   };
+
   const handleDownloadPDF = async () => {
-  if (!student?.offerLetterUrl) return;
+    if (!student?.offerLetterUrl) return;
 
-  try {
-    const response = await fetch(student.offerLetterUrl);
-    if (!response.ok) throw new Error("Failed to fetch offer letter");
+    try {
+      const response = await fetch(student.offerLetterUrl);
+      if (!response.ok) throw new Error("Failed to fetch offer letter");
 
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
 
-    link.href = url;
-    link.setAttribute("download", "OfferLetter.pdf");
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Error downloading offer letter:", error);
-  }
-};
+      link.href = url;
+      link.setAttribute("download", "OfferLetter.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading offer letter:", error);
+    }
+  };
 
+  // Animation variants
+  const navbarVariants = {
+    hidden: { 
+      y: -100, 
+      opacity: 0 
+    },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 20,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { 
+      y: -20, 
+      opacity: 0 
+    },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 200,
+        damping: 20
+      }
+    }
+  };
+
+  const mobileMenuVariants = {
+    hidden: { 
+      opacity: 0, 
+      height: 0,
+      transition: {
+        duration: 0.2
+      }
+    },
+    visible: { 
+      opacity: 1, 
+      height: "auto" as const,
+      transition: {
+        duration: 0.3,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const mobileItemVariants = {
+    hidden: { 
+      x: -20, 
+      opacity: 0 
+    },
+    visible: { 
+      x: 0, 
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 200,
+        damping: 20
+      }
+    }
+  };
+
+  const notificationVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.8, 
+      y: -10 
+    },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 300,
+        damping: 25
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      scale: 0.8, 
+      y: -10,
+      transition: {
+        duration: 0.2
+      }
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm dark:shadow-lg dark:shadow-black/5">
+    <motion.header 
+      className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm dark:shadow-lg dark:shadow-black/5"
+      variants={navbarVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
         {/* Logo Section */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 cursor-pointer group">
+        <motion.div 
+          className="flex items-center gap-3"
+          variants={itemVariants}
+        >
+          <motion.div 
+            className="flex items-center gap-2 cursor-pointer group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <div className="relative">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <BookOpen className="w-4 h-4 text-white" />
-              </div>
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg blur opacity-20 group-hover:opacity-30 transition-opacity duration-200"></div>
+              <motion.div 
+                className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center"
+                whileHover={{ 
+                  scale: 1.1,
+                  boxShadow: "0 0 20px rgba(59, 130, 246, 0.5)"
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <BookOpen className="w-4 h-4 text-white" />
+                </motion.div>
+              </motion.div>
+              <motion.div 
+                className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg blur opacity-20"
+                whileHover={{ opacity: 0.4 }}
+                transition={{ duration: 0.3 }}
+              />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+            <motion.span 
+              className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400"
+              whileHover={{ 
+                backgroundSize: "200% 100%",
+                backgroundPosition: "100% 0%"
+              }}
+              transition={{ duration: 0.5 }}
+            >
               Stream Portal
-            </span>
-          </div>
-        </div>
+            </motion.span>
+          </motion.div>
+        </motion.div>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-          <a href="/student/dashboard" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
-            Dashboard
-          </a>
-          <a href="/student/browse" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
-            Browse
-          </a>
-          <a href="/student/help" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
-            Help
-          </a>
-          <a href="/student/payment" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
-            Payment
-          </a>
-        </nav>
+        <motion.nav 
+          className="hidden md:flex items-center gap-8 text-sm font-medium"
+          variants={itemVariants}
+        >
+          {[
+            { href: "/student/dashboard", label: "Dashboard" },
+            { href: "/student/browse", label: "Browse" },
+            { href: "/student/help", label: "Help" },
+            { href: "/student/payment", label: "Payment" }
+          ].map((item, index) => (
+            <motion.a
+              key={item.href}
+              href={item.href}
+              className="text-foreground/80 hover:text-foreground transition-colors relative"
+              whileHover={{ 
+                scale: 1.05,
+                color: "#3b82f6"
+              }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              {item.label}
+              <motion.div
+                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.a>
+          ))}
+        </motion.nav>
 
         {/* Right Side */}
-        <div className="flex items-center gap-3 relative">
-          {/* Notification */}
-         <div className="relative">
-  <button
-    className="p-2 hover:bg-muted rounded-full transition-all duration-200 hover:scale-105 relative"
-    onClick={() => setShowNotification(!showNotification)}
-  >
-    <Bell className="w-5 h-5 text-muted-foreground" />
-    {student?.notification && (
-      <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full animate-pulse">
-        <span className="absolute inset-0 w-3 h-3 bg-red-500 rounded-full animate-ping"></span>
-      </span>
-    )}
-  </button>
-
-  {showNotification && student?.notification && (
-    <div className="absolute right-0 mt-2 w-72 p-4 bg-white dark:bg-gray-900 border border-border rounded shadow-lg z-50 space-y-4">
-      {/* Notification text */}
-      <p className="text-sm text-foreground">{student.notification}</p>
-
-      {/* Offer Letter Download */}
-      {student.offerLetterUrl && (
-      <Button
-  variant="secondary"
-  size="sm"
-  className="w-full"
-  onClick={handleDownloadPDF}
->
-  📄 Download Offer Letter
-</Button>
-
-      )}
-
-      {/* Accept Seat */}
-      {!student.seatAccepted && (
-        <Button
-          size="sm"
-          className="w-full"
-          onClick={handleAccept}
-          disabled={accepting}
+        <motion.div 
+          className="flex items-center gap-3 relative"
+          variants={itemVariants}
         >
-          {accepting ? "Accepting..." : "Accept Seat"}
-        </Button>
-      )}
-    </div>
-  )}
-</div>
+          {/* Notification */}
+          <div className="relative">
+            <motion.button
+              className="p-2 hover:bg-muted rounded-full transition-all duration-200 relative"
+              onClick={() => setShowNotification(!showNotification)}
+              whileHover={{ 
+                scale: 1.1,
+                backgroundColor: "rgba(59, 130, 246, 0.1)"
+              }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <motion.div
+                whileHover={{ rotate: 15 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Bell className="w-5 h-5 text-muted-foreground" />
+              </motion.div>
+              {student?.notification && (
+                <motion.span 
+                  className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                >
+                  <motion.span 
+                    className="absolute inset-0 w-3 h-3 bg-red-500 rounded-full"
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                      opacity: [1, 0.7, 1]
+                    }}
+                    transition={{ 
+                      repeat: Infinity,
+                      duration: 1.5
+                    }}
+                  />
+                </motion.span>
+              )}
+            </motion.button>
 
+            <AnimatePresence>
+              {showNotification && student?.notification && (
+                <motion.div
+                  className="absolute right-0 mt-2 w-72 p-4 bg-white dark:bg-gray-900 border border-border rounded shadow-lg z-50 space-y-4"
+                  variants={notificationVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                >
+                  <motion.p 
+                    className="text-sm text-foreground"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    {student.notification}
+                  </motion.p>
+
+                  {/* Offer Letter Download */}
+                  {student.offerLetterUrl && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="w-full hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-950 dark:hover:to-purple-950 transition-all duration-300"
+                        onClick={handleDownloadPDF}
+                      >
+                        📄 Download Offer Letter
+                      </Button>
+                    </motion.div>
+                  )}
+
+                  {/* Accept Seat */}
+                  {!student.seatAccepted && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <Button
+                        size="sm"
+                        className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300"
+                        onClick={handleAccept}
+                        disabled={accepting}
+                      >
+                        {accepting ? "Accepting..." : "Accept Seat"}
+                      </Button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Theme & User */}
-          <ThemeToggle />
-          <div className="ml-1">
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ThemeToggle />
+          </motion.div>
+          
+          <motion.div 
+            className="ml-1"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <UserButton
               afterSignOutUrl="/"
               appearance={{
@@ -183,40 +394,75 @@ export default function Navbar() {
                 }
               }}
             />
-          </div>
+          </motion.div>
 
           {/* Mobile Menu Toggle */}
-          <button
+          <motion.button
             className="md:hidden p-2 hover:bg-muted rounded-full transition-colors duration-200"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            whileHover={{ 
+              scale: 1.1,
+              backgroundColor: "rgba(59, 130, 246, 0.1)"
+            }}
+            whileTap={{ scale: 0.9 }}
           >
-            {isMobileMenuOpen ? (
-              <X className="w-5 h-5 text-muted-foreground" />
-            ) : (
-              <Menu className="w-5 h-5 text-muted-foreground" />
-            )}
-          </button>
-        </div>
+            <motion.div
+              animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5 text-muted-foreground" />
+              ) : (
+                <Menu className="w-5 h-5 text-muted-foreground" />
+              )}
+            </motion.div>
+          </motion.button>
+        </motion.div>
       </div>
 
       {/* Mobile Nav */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur">
-          <div className="container px-4 py-4">
-            <nav className="flex flex-col space-y-4">
-              <a href="/student/dashboard" className="text-foreground/80 hover:text-foreground transition-colors py-2 text-base">
-                Dashboard
-              </a>
-              <a href="/student/browse" className="text-foreground/80 hover:text-foreground transition-colors py-2 text-base">
-                Browse
-              </a>
-              <a href="/student/help" className="text-foreground/80 hover:text-foreground transition-colors py-2 text-base">
-                Help
-              </a>
-            </nav>
-          </div>
-        </div>
-      )}
-    </header>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="md:hidden border-t border-border bg-background/95 backdrop-blur"
+            variants={mobileMenuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+            <div className="container px-4 py-4">
+              <nav className="flex flex-col space-y-4">
+                {[
+                  { href: "/student/dashboard", label: "Dashboard" },
+                  { href: "/student/browse", label: "Browse" },
+                  { href: "/student/help", label: "Help" },
+                  { href: "/student/payment", label: "Payment" }
+                ].map((item, index) => (
+                  <motion.a
+                    key={item.href}
+                    href={item.href}
+                    className="text-foreground/80 hover:text-foreground transition-colors py-2 text-base relative"
+                    variants={mobileItemVariants}
+                    whileHover={{ 
+                      x: 10,
+                      color: "#3b82f6"
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item.label}
+                    <motion.div
+                      className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"
+                      initial={{ scaleY: 0 }}
+                      whileHover={{ scaleY: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.a>
+                ))}
+              </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }
