@@ -36,8 +36,8 @@ export default function Navbar( ) {{
           <a href="/admin/dashboard" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
             Dashboard
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
-            Streams
+          <a href="/admin/stream" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
+            Stream
           </a>
           <a href="/admin/analytics" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
             Analytics
@@ -107,16 +107,16 @@ export default function Navbar( ) {{
 
             {/* Mobile Navigation */}
             <nav className="flex flex-col space-y-3">
-              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors py-2">
+              <a href="/admin/dashboard" className="text-foreground/80 hover:text-foreground transition-colors py-2">
                 Dashboard
               </a>
-              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors py-2">
-                Streams
+              <a href="/admin/stream" className="text-foreground/80 hover:text-foreground transition-colors py-2">
+                Stream
               </a>
-              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors py-2">
+              <a href="/admin/analytics" className="text-foreground/80 hover:text-foreground transition-colors py-2">
                 Analytics
               </a>
-              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors py-2">
+              <a href="/admin/community" className="text-foreground/80 hover:text-foreground transition-colors py-2">
                 Community
               </a>
             </nav>

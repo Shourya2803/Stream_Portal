@@ -112,7 +112,7 @@ export default function Navbar() {
           <a href="/student/browse" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
             Browse
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
+          <a href="/student/help" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
             Help
           </a>
           <a href="/student/payment" className="text-foreground/80 hover:text-foreground transition-colors hover:scale-105 transform duration-200">
@@ -210,7 +210,7 @@ export default function Navbar() {
               <a href="/student/browse" className="text-foreground/80 hover:text-foreground transition-colors py-2 text-base">
                 Browse
               </a>
-              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors py-2 text-base">
+              <a href="/student/help" className="text-foreground/80 hover:text-foreground transition-colors py-2 text-base">
                 Help
               </a>
             </nav>
