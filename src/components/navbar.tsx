@@ -63,6 +63,28 @@ export default function Navbar() {
       setAccepting(false);
     }
   };
+  const handleDownloadPDF = async () => {
+  if (!student?.offerLetterUrl) return;
+
+  try {
+    const response = await fetch(student.offerLetterUrl);
+    if (!response.ok) throw new Error("Failed to fetch offer letter");
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.setAttribute("download", "OfferLetter.pdf");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading offer letter:", error);
+  }
+};
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm dark:shadow-lg dark:shadow-black/5">
@@ -121,20 +143,15 @@ export default function Navbar() {
 
       {/* Offer Letter Download */}
       {student.offerLetterUrl && (
-        <a
-          href={student.offerLetterUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
-          <Button
-            variant="secondary"
-            size="sm"
-            className="w-full"
-          >
-            📄 Download Offer Letter
-          </Button>
-        </a>
+      <Button
+  variant="secondary"
+  size="sm"
+  className="w-full"
+  onClick={handleDownloadPDF}
+>
+  📄 Download Offer Letter
+</Button>
+
       )}
 
       {/* Accept Seat */}
