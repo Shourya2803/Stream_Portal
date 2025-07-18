@@ -40,34 +40,8 @@ Stream_Portal/
 ├── .env.local        # Environment variables
 └── README.md         # You're here
 
----
-##Local Setup
 
 
-🧪 Local Setup
-1. Clone the repository
-git clone https://github.com/yourusername/Stream_Portal.git
-
-cd Stream_Portal
-2. Install dependencies
-npm install
-
-3. Set environment variables
-
-4. Push Prisma schema to the database
-npx prisma db push
-
-5. Start the development server
-
-npm run dev
-Now open http://localhost:3000 to see the app.
-
-📌 Notable Implementation Highlights
-🧠 Zod for form validation
-
-🚀 Optimized API performance (up to 40% faster responses)
-
-📊 Admin dashboard with filtering and status control
 
 ✉️ Real-time offer letter delivery via secure dynamic URLs
 
