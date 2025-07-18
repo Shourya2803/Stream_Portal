@@ -14,7 +14,6 @@ Stream Portal is a full-stack **Student Counseling Web Application** built using
 - 🔔 **Notifications System** – Bell icon with red dot and dropdown for seat and offer letter alerts
 - 📱 **Fully Responsive** – Designed for all devices with clean, accessible UI
 - ⚡ **Optimized APIs** – Improved backend performance with up to 40% faster API responses
-- ✅ **Zod Validation** – Strong type-safe validation for form data
 
 ---
 
