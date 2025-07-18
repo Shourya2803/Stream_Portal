@@ -41,6 +41,8 @@ Stream_Portal/
 └── README.md         # You're here
 
 ---
+##Local Setup
+
 
 🧪 Local Setup
 1. Clone the repository
