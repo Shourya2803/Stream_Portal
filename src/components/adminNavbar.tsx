@@ -156,7 +156,7 @@ export default function Navbar() {
                 {item.label}
               </span>
               <motion.div
-                className="absolute -inset-x-2 -inset-y-1 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="absolute -inset-x-2 -inset-y-1 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                 whileHover={{ scale: 1.1 }}
               />
             </motion.a>
@@ -165,34 +165,28 @@ export default function Navbar() {
 
         {/* Right Side Actions */}
         <div className="flex items-center gap-2">
-          {/* Theme Toggle */}
+          {/* Theme Toggle - Fixed */}
           <motion.div 
-            className="hidden sm:block group"
+            className="hidden sm:block relative z-10"
             variants={buttonVariants}
             initial="hidden"
             animate="visible"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
-            <div className="relative">
+            <div className="relative group">
               <ThemeToggle />
-              <motion.div
-                className="absolute -inset-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                whileHover={{ scale: 1.1 }}
-              />
+              {/* Background effect that doesn't interfere with clicks */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none -z-10" />
             </div>
           </motion.div>
 
-          {/* User Button */}
+          {/* User Button - Fixed */}
           <motion.div 
-            className="ml-2 group"
+            className="ml-2 relative z-10"
             variants={buttonVariants}
             initial="hidden"
             animate="visible"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
-            <div className="relative">
+            <div className="relative group">
               <UserButton 
                 afterSignOutUrl="/"
                 appearance={{
@@ -203,16 +197,14 @@ export default function Navbar() {
                   }
                 }}
               />
-              <motion.div
-                className="absolute -inset-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                whileHover={{ scale: 1.2 }}
-              />
+              {/* Background effect that doesn't interfere with clicks */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none -z-10" />
             </div>
           </motion.div>
 
           {/* Mobile Menu Button */}
           <motion.button
-            className="md:hidden p-2 hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20 rounded-full transition-all duration-300 group"
+            className="md:hidden p-2 hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20 rounded-full transition-all duration-300 group relative z-10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             variants={buttonVariants}
             initial="hidden"
@@ -265,7 +257,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-pink-500 transition-colors duration-300" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-pink-500 transition-colors duration-300 pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Search streams, users..."
@@ -291,7 +283,7 @@ export default function Navbar() {
                       {item.label}
                     </span>
                     <motion.div
-                      className="absolute -inset-x-2 -inset-y-1 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute -inset-x-2 -inset-y-1 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                       whileHover={{ scale: 1.02 }}
                     />
                   </motion.a>
@@ -313,14 +305,9 @@ export default function Navbar() {
                   >
                     <Settings className="w-5 h-5 text-muted-foreground group-hover:text-pink-500 transition-colors duration-300" />
                   </motion.button>
-                  <div className="group">
-                    <div className="relative">
-                      <ThemeToggle />
-                      <motion.div
-                        className="absolute -inset-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        whileHover={{ scale: 1.1 }}
-                      />
-                    </div>
+                  <div className="relative group">
+                    <ThemeToggle />
+                    <div className="absolute -inset-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none -z-10" />
                   </div>
                 </div>
               </motion.div>
@@ -330,4 +317,4 @@ export default function Navbar() {
       </AnimatePresence>
     </motion.header>
   );
-}
+} 
