@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { GraduationCap, ShieldCheck, Sparkles, Users, ArrowRight, Code, Cpu } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function HomePage() {
   const router = useRouter();
@@ -32,158 +33,318 @@ export default function HomePage() {
     { icon: Users, title: "Student Management", desc: "Comprehensive student data and progress tracking" },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 15,
+      },
+    },
+  };
+
+  const floatingVariants = {
+    animate: {
+      y: [0, -10, 0],
+      rotate: [0, 5, -5, 0],
+      transition: {
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut" as const,
+      },
+    },
+  };
+
   return (
-    <div className="h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        {/* Gradient Orbs */}
-        <div 
-          className="absolute w-96 h-96 bg-gradient-to-r from-blue-500/30 to-pink-500/30 rounded-full blur-3xl animate-pulse"
-          style={{
-            left: `${mousePosition.x * 0.02}px`,
-            top: `${mousePosition.y * 0.02}px`,
-            animation: 'float 6s ease-in-out infinite'
+        {/* Professional Gradient Orbs */}
+        <motion.div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-blue-600/20 to-slate-600/20 rounded-full blur-3xl"
+          animate={{
+            x: mousePosition.x * 0.02,
+            y: mousePosition.y * 0.02,
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            x: { type: "spring", stiffness: 50, damping: 30 },
+            y: { type: "spring", stiffness: 50, damping: 30 },
+            scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
           }}
         />
-        <div 
-          className="absolute w-80 h-80 bg-gradient-to-r from-pink-500/20 to-blue-500/20 rounded-full blur-2xl animate-pulse"
-          style={{
-            right: `${mousePosition.x * 0.015}px`,
-            bottom: `${mousePosition.y * 0.015}px`,
-            animation: 'float 8s ease-in-out infinite reverse'
+        <motion.div 
+          className="absolute w-80 h-80 bg-gradient-to-r from-slate-600/15 to-blue-600/15 rounded-full blur-2xl"
+          animate={{
+            x: -mousePosition.x * 0.015,
+            y: -mousePosition.y * 0.015,
+            scale: [1, 1.2, 1],
           }}
+          transition={{
+            x: { type: "spring", stiffness: 50, damping: 30 },
+            y: { type: "spring", stiffness: 50, damping: 30 },
+            scale: { duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 },
+          }}
+          style={{ right: 0, bottom: 0 }}
         />
         
         {/* Floating Particles */}
-        {[...Array(15)].map((_, i) => (
-          <div
+        {[...Array(12)].map((_, i) => (
+          <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-pink-400 rounded-full opacity-60"
+            className="absolute w-2 h-2 bg-gradient-to-r from-blue-400/60 to-slate-400/60 rounded-full"
+            animate={{
+              y: [0, -20, 0],
+              x: [0, Math.random() * 10 - 5, 0],
+              opacity: [0.4, 0.8, 0.4],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: Math.random() * 2,
+            }}
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`
             }}
           />
         ))}
       </div>
 
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgb3BhY2l0eT0iMC4xIj4KPHBhdGggZD0iTTQwIDBMMCAwTDAgNDAiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjwvZz4KPHN2Zz4K')] opacity-10"></div>
+      {/* Professional Grid Pattern Overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgb3BhY2l0eT0iMC4xIj4KPHBhdGggZD0iTTQwIDBMMCAwTDAgNDAiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjwvZz4KPHN2Zz4K')] opacity-5"></div>
 
       <main className="relative z-10 h-screen flex flex-col items-center justify-center p-4">
-        {/* Header Section */}
-        <div className={`text-center space-y-6 max-w-6xl mx-auto transform transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <motion.div 
+          className="text-center space-y-6 max-w-6xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* Hero Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-pink-500/20 border border-blue-500/30 backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 text-pink-400" />
-            <span className="text-sm font-medium text-blue-100">Advanced Student Management System</span>
-          </div>
+          <motion.div 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-slate-700/40 to-slate-600/40 border border-slate-500/30 backdrop-blur-sm"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <motion.div variants={floatingVariants} animate="animate">
+              <Sparkles className="w-4 h-4 text-blue-400" />
+            </motion.div>
+            <span className="text-sm font-medium text-slate-200">Advanced Student Management System</span>
+          </motion.div>
 
           {/* Main Title */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight">
-            <span className="bg-gradient-to-r from-blue-400 via-pink-400 to-blue-400 bg-clip-text text-transparent bg-size-200 animate-gradient">
+          <motion.h1 
+            className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight"
+            variants={itemVariants}
+          >
+            <motion.span 
+              className="bg-gradient-to-r from-blue-400 via-slate-300 to-blue-400 bg-clip-text text-transparent bg-size-200"
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
               Stream
-            </span>
+            </motion.span>
             <br />
-            <span className="text-white">Portal</span>
-          </h1>
+            <motion.span 
+              className="text-white"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+            >
+              Portal
+            </motion.span>
+          </motion.h1>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <motion.p 
+            className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed"
+            variants={itemVariants}
+          >
             Streamline your engineering education management with our comprehensive platform for 
-            <span className="text-pink-400 font-semibold"> CSE</span> and 
-            <span className="text-blue-400 font-semibold"> ECE</span> programs
-          </p>
+            <motion.span 
+              className="text-blue-400 font-semibold"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            > CSE</motion.span> and 
+            <motion.span 
+              className="text-blue-400 font-semibold"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            > ECE</motion.span> programs
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div className={`flex flex-col sm:flex-row gap-4 justify-center mt-8 transform transition-all duration-1000 delay-300 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            <Button
-              onClick={() => handleNavigation("/student/login")}
-              className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-4 rounded-2xl text-lg font-semibold shadow-2xl shadow-blue-500/25 transform hover:scale-105 transition-all duration-300 border-0"
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+            variants={itemVariants}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3">
-                <GraduationCap className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-                <span>Login as Student</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </div>
-            </Button>
+              <Button
+                onClick={() => handleNavigation("/student/login")}
+                className="group relative overflow-hidden bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-4 rounded-xl text-lg font-semibold shadow-2xl shadow-blue-900/25 border-0"
+              >
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-blue-500 to-slate-500 opacity-0 group-hover:opacity-20"
+                  whileHover={{ opacity: 0.2 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <div className="relative flex items-center gap-3">
+                  <motion.div
+                    whileHover={{ rotate: 12 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <GraduationCap className="w-5 h-5" />
+                  </motion.div>
+                  <span>Login as Student</span>
+                  <motion.div
+                    whileHover={{ x: 4 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.div>
+                </div>
+              </Button>
+            </motion.div>
 
-            <Button
-              onClick={() => handleNavigation("/admin/login")}
-              className="group relative overflow-hidden bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-500 hover:to-pink-600 text-white px-6 py-4 rounded-2xl text-lg font-semibold shadow-2xl shadow-pink-500/25 transform hover:scale-105 transition-all duration-300 border-0"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3">
-                <ShieldCheck className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-                <span>Login as Admin</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </div>
-            </Button>
-          </div>
+              <Button
+                onClick={() => handleNavigation("/admin/login")}
+                className="group relative overflow-hidden bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-white px-6 py-4 rounded-xl text-lg font-semibold shadow-2xl shadow-slate-900/25 border-0"
+              >
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-slate-500 to-blue-500 opacity-0 group-hover:opacity-20"
+                  whileHover={{ opacity: 0.2 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <div className="relative flex items-center gap-3">
+                  <motion.div
+                    whileHover={{ rotate: 12 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <ShieldCheck className="w-5 h-5" />
+                  </motion.div>
+                  <span>Login as Admin</span>
+                  <motion.div
+                    whileHover={{ x: 4 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.div>
+                </div>
+              </Button>
+            </motion.div>
+          </motion.div>
 
           {/* Features Section */}
-          <div className={`mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 transform transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <motion.div 
+            className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4"
+            variants={itemVariants}
+          >
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="group relative p-4 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:border-pink-500/50 transition-all duration-300 hover:transform hover:scale-105"
+                className="group relative p-4 rounded-xl bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 + index * 0.2, duration: 0.6 }}
+                whileHover={{ 
+                  scale: 1.02,
+                  y: -5,
+                  transition: { type: "spring", stiffness: 300 }
+                }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-pink-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-slate-600/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  whileHover={{ opacity: 1 }}
+                />
                 <div className="relative text-center space-y-3">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-pink-500/20 group-hover:from-blue-500/30 group-hover:to-pink-500/30 transition-all duration-300">
-                    <feature.icon className="w-6 h-6 text-blue-400 group-hover:text-pink-400 transition-colors duration-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white group-hover:text-pink-400 transition-colors duration-300">
+                  <motion.div 
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-slate-700/40 to-slate-600/40 group-hover:from-blue-600/30 group-hover:to-slate-600/30 transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <feature.icon className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
+                  </motion.div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors duration-300">
+                  <p className="text-sm text-slate-300 group-hover:text-slate-200 transition-colors duration-300">
                     {feature.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Bottom CTA */}
-          <div className={`mt-8 text-center transform transition-all duration-1000 delay-700 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            <p className="text-gray-400 text-sm mb-3">
+          <motion.div 
+            className="mt-8 text-center"
+            variants={itemVariants}
+          >
+            <p className="text-slate-400 text-sm mb-3">
               Trusted by engineering colleges and students
             </p>
-            <div className="flex justify-center items-center gap-4">
+            <motion.div 
+              className="flex justify-center items-center gap-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+            >
               <div className="flex -space-x-2">
                 {[...Array(5)].map((_, i) => (
-                  <div
+                  <motion.div
                     key={i}
-                    className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-pink-400 border-2 border-gray-800 opacity-80"
+                    className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-slate-500 border-2 border-slate-800 opacity-80"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 0.8 }}
+                    transition={{ 
+                      delay: 1.4 + i * 0.1, 
+                      type: "spring", 
+                      stiffness: 300 
+                    }}
+                    whileHover={{ scale: 1.2 }}
                   />
                 ))}
               </div>
-              <span className="text-gray-300 text-sm">+5,000 students</span>
-            </div>
-          </div>
-        </div>
+              <span className="text-slate-300 text-sm">+5,000 students</span>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </main>
 
-      {/* Custom CSS for animations */}
+      {/* Custom CSS for background animations */}
       <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-10px) rotate(180deg); }
-        }
-        
-        @keyframes gradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        
-        .animate-gradient {
-          animation: gradient 3s ease infinite;
-        }
-        
         .bg-size-200 {
           background-size: 200% 200%;
         }
