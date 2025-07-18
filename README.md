@@ -44,10 +44,8 @@ Stream_Portal/
 
 🧪 Local Setup
 1. Clone the repository
-bash
-Copy
-Edit
 git clone https://github.com/yourusername/Stream_Portal.git
+
 cd Stream_Portal
 2. Install dependencies
 npm install
