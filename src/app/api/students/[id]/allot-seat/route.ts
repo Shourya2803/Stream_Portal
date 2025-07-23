@@ -2,17 +2,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-type RouteContext = {
-  params: Promise<{ id: string }> | { id: string };
-};
-
 export async function POST(
   req: NextRequest,
-  context: RouteContext
+  { params }: { params: { id: string } }
 ) {
-  // Handle both Promise and direct params
-  const params = await Promise.resolve(context.params);
-  const { id } = params;
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
   
   const body = await req.json();
   const seat = body.seat;
