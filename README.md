@@ -26,19 +26,6 @@ Stream Portal is a full-stack **Student Counseling Web Application** built using
 
 ---
 
-## 📦 Project Structure
-
-```bash
-Stream_Portal/
-├── components/       # Reusable UI components
-├── pages/            # Routes and API endpoints
-├── lib/              # Utility functions and helpers
-├── prisma/           # Prisma schema and seed
-├── public/           # Static assets
-├── styles/           # Global styles
-├── .env.local        # Environment variables
-└── README.md         # You're here
-
 
 
 
