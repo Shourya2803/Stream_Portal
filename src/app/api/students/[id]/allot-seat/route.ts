@@ -6,9 +6,7 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const resolvedParams = await params;
-  const { id } = resolvedParams;
-  
+  const { id } = params;
   const body = await req.json();
   const seat = body.seat;
 
