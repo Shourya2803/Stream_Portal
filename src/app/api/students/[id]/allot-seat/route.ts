@@ -4,9 +4,9 @@ import prisma from "@/lib/prisma";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = context.params;
   const body = await req.json();
   const seat = body.seat;
 
@@ -23,9 +23,12 @@ export async function POST(
       },
     });
 
-    return NextResponse.json(updatedStudent);
+    return NextResponse.json(updatedStudent, { status: 200 });
   } catch (err) {
     console.error("Error allotting seat:", err);
-    return NextResponse.json({ error: "Failed to allot seat" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to allot seat" },
+      { status: 500 }
+    );
   }
 }
