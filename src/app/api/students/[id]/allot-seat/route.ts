@@ -4,9 +4,9 @@ import prisma from "@/lib/prisma";
 
 export async function POST(
   req: NextRequest,
-   { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } =await params;
+  const { id } = params;
   const body = await req.json();
   const seat = body.seat;
 
